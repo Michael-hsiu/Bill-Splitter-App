@@ -18,10 +18,15 @@ public class StartScreen : MonoBehaviour {
 		newPersonSlot.transform.SetParent (slotContainer.transform);	// Put Person Slot in Container
 
 		// Logistics
-		PersonManager.Instance.persons.Add (newPersonSlot.GetComponent<PersonSlot>());		
+		newPersonSlot.GetComponent<PersonSlot> ().index = PersonManager.Instance.numPersons;	// Index of slot in vert hierarchy
+		PersonManager.Instance.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
 		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + (PersonManager.Instance.persons.Count + 1);
 		PersonManager.Instance.numPersons += 1;
 
+	}
+
+	public void DeletePerson() {
+		
 	}
 
 /*	ist<UpgradableScriptableObject> upgradesList = activePowerupHolder.powerup.GetComponent <Powerup>().powerupData.upgradeList;
