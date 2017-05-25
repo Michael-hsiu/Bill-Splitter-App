@@ -46,7 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\ItemSlot.cs" />
      <Compile Include="Assets\Scripts\PersonManager.cs" />
+     <Compile Include="Assets\Scripts\PersonScreen.cs" />
      <Compile Include="Assets\Scripts\PersonSlot.cs" />
      <Compile Include="Assets\StartScreen.cs" />
  <Reference Include="UnityEngine.Analytics">

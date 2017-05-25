@@ -9,6 +9,15 @@ public class StartScreen : MonoBehaviour {
 	public GameObject slotContainer;	// Contains all PersonSlots
 	public GameObject personSlot;		// Person slot prefab
 
+	public GameObject personPageContainer;	// Container for person pages
+	public GameObject personPage;		// Page for each person
+
+	public PersonManager personManager;		// PersonManager singleton
+
+	void Start() {
+		personManager = PersonManager.Instance;		// Get ref to our singleton
+	}
+
 
 	// Called when addPersonButton is pressed
 	public void AddPerson() {
@@ -18,16 +27,38 @@ public class StartScreen : MonoBehaviour {
 		newPersonSlot.transform.SetParent (slotContainer.transform);	// Put Person Slot in Container
 
 		// Logistics
-		newPersonSlot.GetComponent<PersonSlot> ().index = PersonManager.Instance.numPersons;	// Index of slot in vert hierarchy
-		PersonManager.Instance.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
-		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + (PersonManager.Instance.persons.Count + 1);
-		PersonManager.Instance.numPersons += 1;
+		newPersonSlot.GetComponent<PersonSlot> ().index = personManager.numPersons;	// Index of slot in vert hierarchy
+		personManager.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
+		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + (personManager.persons.Count + 1);
+		personManager.numPersons += 1;
+
+		Debug.Log ("NUMPERSONS: " + personManager.numPersons);
 
 	}
 
-	public void DeletePerson() {
-		
+	// Called when Save&Next is pressed
+	public void SaveAndNext() {
+
+		// Instantiate pages for each of the saved PersonSlots
+		int numPersons = personManager.numPersons;
+		List<PersonSlot> personList = personManager.persons;
+		for (int i = 0; i < numPersons; i++) {
+
+			// Nest the person page under container
+			GameObject currPage = Instantiate (personPage);
+			currPage.name = personList [i].name;				// Since 'numPersons' starts out as 1, but we start at 0
+			currPage.transform.SetParent (personPageContainer.transform);
+
+			// Next, populate the fields
+			currPage.GetComponent<PersonScreen> ().PopulateSlots ();	// This fills up all item slots for that person
+		}
+
 	}
+
+	// TODO: for when a person is deleted
+	public void ClearPages() {}
+
+
 
 /*	ist<UpgradableScriptableObject> upgradesList = activePowerupHolder.powerup.GetComponent <Powerup>().powerupData.upgradeList;
 	int numSlots = upgradesList.Count;
