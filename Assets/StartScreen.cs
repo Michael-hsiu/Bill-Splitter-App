@@ -10,7 +10,7 @@ public class StartScreen : MonoBehaviour {
 	public GameObject personSlot;		// Person slot prefab
 
 	public GameObject personPageContainer;	// Container for person pages
-	public GameObject personPage;		// Page for each person
+	public GameObject personScreen;		// Page for each person
 
 	public PersonManager personManager;		// PersonManager singleton
 
@@ -44,14 +44,24 @@ public class StartScreen : MonoBehaviour {
 		List<PersonSlot> personList = personManager.persons;
 		for (int i = 0; i < numPersons; i++) {
 
+			// Using current list of persons, create PersonSlot objects
+			personList [i].personName = personList [i].inputField.text;
+
 			// Nest the person page under container
-			GameObject currPage = Instantiate (personPage);
+			GameObject currPage = Instantiate (personScreen);
 			currPage.name = personList [i].name;				// Since 'numPersons' starts out as 1, but we start at 0
 			currPage.transform.SetParent (personPageContainer.transform);
 
 			// Next, populate the fields
 			currPage.GetComponent<PersonScreen> ().PopulateSlots ();	// This fills up all item slots for that person
+		
+			// Give curr pg ref to PersonManager
+			personManager.personScreens.Add (currPage);
+			currPage.SetActive (false);
 		}
+
+		// Load the first person page
+		personManager.LoadFirstPersonScreen ();
 
 	}
 

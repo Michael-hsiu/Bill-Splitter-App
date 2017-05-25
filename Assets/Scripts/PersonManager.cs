@@ -6,6 +6,7 @@ public class PersonManager : MonoBehaviour {
 
 	public List<PersonSlot> persons = new List<PersonSlot>();		// Ref. to slots corresponding to each person
 	public GameObject startScreen;			// Takes care of making slots
+	public List<GameObject> personScreens = new List<GameObject>();
 	public int numPersons = 1;					// Cache total # of ppl; always start w/ 1 person
 
 
@@ -36,6 +37,11 @@ public class PersonManager : MonoBehaviour {
 
 		// Update IDs of all other persons coming after this one
 
+	}
+
+	public void LoadFirstPersonScreen() {
+		startScreen.SetActive (false);
+		personScreens [0].SetActive (true);
 	}
 
 

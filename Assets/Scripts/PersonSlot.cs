@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PersonSlot : MonoBehaviour {
 
 	public int index;		// Index of person
-	public string name;		// Name of person
+	public string personName;		// Name of person
 	public List<Item> items = new List<Item>();		// List of all items they bought
 
+	public GameObject deleteButton;
+	public InputField inputField;
 	public GameObject personPage;		// Ref to its page
 
 
