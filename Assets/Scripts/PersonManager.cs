@@ -59,14 +59,41 @@ public class PersonManager : MonoBehaviour {
 		activePerson = persons [currPerson];
 		personName.text = "PERSON #" + (currPerson + 1) + ": " + activePerson.personName;
 
+		// Clear items from last person
+		foreach (Transform child in itemContainer.transform) {
+			Debug.Log ("DESTORYING ITEM");
+			Destroy (child.gameObject);
+		}
+
 		// Only if the person hasn't been given any items
-		if (activePerson.items.Count == 0) {
-			AddItem ();
+		if (activePerson.numItems == 0) {
+			AddNewItem ();
+			activePerson.numItems += 1;		// We're adding an empty ItemSlot
+		} else {
+
+			// Add slots for each of the items for the person
+			// Currently there are multiple repeat calculations, but optimize later if time
+			foreach (ItemSlot slot in activePerson.itemSlots) {
+				AddExistingItem ();
+			}
+
 		}
 
 	}
 
-	public void AddItem() {
+	public void AddExistingItem() {
+		
+		GameObject firstItem = Instantiate (itemSlot);
+		firstItem.transform.SetParent (itemContainer.transform);
+
+		firstItem.GetComponent<ItemSlot>().itemText.text = "ITEM #: " + currItem;
+		firstItem.GetComponent<ItemSlot> ().index = currItem;
+		firstItem.GetComponent<ItemSlot>().inputField.text = activePerson.items[currItem].price.ToString ();
+
+		currItem += 1;		// Num of items
+	}
+
+	public void AddNewItem() {
 		
 		GameObject firstItem = Instantiate (itemSlot);
 		firstItem.transform.SetParent (itemContainer.transform);
@@ -104,14 +131,12 @@ public class PersonManager : MonoBehaviour {
 			} catch (FormatException fe) {
 				Debug.Log ("IMPROPER PRICE FORMAT!");
 			}
-
-
-
 		}
 
 	}
 
 	public void NextPage() {
+		currItem = 0;
 		 if (currPerson == numPersons - 1) {
 			// Go to Shared Items pg
 
@@ -123,9 +148,10 @@ public class PersonManager : MonoBehaviour {
 	}
 
 	public void BackPage() {
+		currItem = 0;
 		if (currPerson == 0) {
 			// Return to main pg
-
+			LoadStartScreen ();
 		} else {
 			currPerson -= 1;
 			RecordItems ();
@@ -133,6 +159,10 @@ public class PersonManager : MonoBehaviour {
 		}
 	}
 
+	public void LoadStartScreen() {
+		startScreen.GetComponent<StartScreen>().personScreenBkgrnd.SetActive (false);
+		startScreen.SetActive (true);
+	}
 	public void ClearSlots() {
 		
 	}
