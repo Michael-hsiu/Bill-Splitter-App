@@ -10,7 +10,7 @@ public class StartScreen : MonoBehaviour {
 	public GameObject personSlot;		// Person slot prefab
 
 	public GameObject personPageContainer;	// Container for person pages
-	public GameObject personScreen;		// Page for each person
+	//public GameObject personScreen;		// Page for each person
 	public GameObject personScreenBkgrnd;	// Background for person screens
 
 	public PersonManager personManager;		// PersonManager singleton
@@ -46,25 +46,25 @@ public class StartScreen : MonoBehaviour {
 		List<PersonSlot> personList = personManager.persons;
 		for (int i = 0; i < numPersons; i++) {
 
-			// Using current list of persons, create PersonSlot objects
+			// Using current list of persons, set names
 			personList [i].personName = personList [i].inputField.text;
 
 			// Nest the person page under container
-			GameObject currPage = Instantiate (personScreen);
-			currPage.name = personList [i].name;				// Since 'numPersons' starts out as 1, but we start at 0
-			currPage.transform.SetParent (personPageContainer.transform);
+			//GameObject currPage = Instantiate (personScreen);
+			//currPage.name = personList [i].name;				// Since 'numPersons' starts out as 1, but we start at 0
+			//currPage.transform.SetParent (personPageContainer.transform);
 
 			// Next, populate the fields
-			currPage.GetComponent<PersonScreen> ().PopulateSlots ();	// This fills up all item slots for that person
+			//currPage.GetComponent<PersonScreen> ().PopulateSlots ();	// This fills up all item slots for that person
 		
 			// Give curr pg ref to PersonManager
-			personManager.personScreens.Add (currPage);
-			currPage.SetActive (false);
+			//personManager.personScreens.Add (currPage);
+			//currPage.SetActive (false);
 		}
 
-		// Load the first person page
+		// Load the first person page, which will populate the template Person Screen with saved fields
 		personScreenBkgrnd.SetActive (true);
-		personManager.LoadFirstPersonScreen ();
+		personManager.LoadPersonScreen();
 
 	}
 
