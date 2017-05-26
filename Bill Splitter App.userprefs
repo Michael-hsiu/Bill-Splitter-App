@@ -1,9 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/PersonManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PersonManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/PersonSlot.cs" Line="10" Column="2" />
-      <File FileName="Assets/PersonManager.cs" Line="10" Column="1" />
+      <File FileName="Assets/StartScreen.cs" Line="14" Column="38" />
+      <File FileName="Assets/Scripts/PersonSlot.cs" Line="11" Column="58" />
+      <File FileName="Assets/Scripts/PersonManager.cs" Line="78" Column="5" />
+      <File FileName="../Paper Planes [CORE] [2.7.17]/Assets/Scripts/Menu/ShopMenu.cs" Line="129" Column="38" />
+      <File FileName="Assets/Scripts/ItemSlot.cs" Line="12" Column="54" />
+      <File FileName="Assets/Scripts/PersonScreen.cs" Line="30" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

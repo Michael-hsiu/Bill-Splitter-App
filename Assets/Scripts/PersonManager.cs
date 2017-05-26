@@ -97,6 +97,7 @@ public class PersonManager : MonoBehaviour {
 		
 		GameObject firstItem = Instantiate (itemSlot);
 		firstItem.transform.SetParent (itemContainer.transform);
+
 		firstItem.GetComponent<ItemSlot>().itemText.text = "ITEM #: " + currItem;
 		firstItem.GetComponent<ItemSlot> ().index = currItem;
 
@@ -151,6 +152,7 @@ public class PersonManager : MonoBehaviour {
 		currItem = 0;
 		if (currPerson == 0) {
 			// Return to main pg
+			RecordItems ();
 			LoadStartScreen ();
 		} else {
 			currPerson -= 1;
