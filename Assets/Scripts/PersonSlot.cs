@@ -30,6 +30,7 @@ public class PersonSlot : MonoBehaviour {
 	}
 
 	public void UpdateTotalPrice(float price) {
+		// Currently duplicates all values
 		totalPrice += price;
 	}
 

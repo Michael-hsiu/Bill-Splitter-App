@@ -80,6 +80,11 @@ public class PersonManager : MonoBehaviour {
 	// Called when we save and move on to next Person page!
 	public void RecordItems() {
 
+		// Reset price to prevent duplicate counts
+		if (activePerson.totalPrice > 0) {
+			activePerson.totalPrice = 0.0f;
+		}
+
 		foreach (ItemSlot slot in activePerson.itemSlots) {
 			
 			try {
@@ -121,7 +126,10 @@ public class PersonManager : MonoBehaviour {
 		if (currPerson == 0) {
 			// Return to main pg
 
-
+		} else {
+			currPerson -= 1;
+			RecordItems ();
+			LoadPersonScreen ();
 		}
 	}
 
