@@ -9,7 +9,16 @@ public class SharedItemsScreen : MonoBehaviour {
 	public List<SharedItemSlot> existingItems;
 	public int currItem = 1;
 
-	public GameObject sharedItemSlot;
+	public GameObject sharedItemSlot;			// This is a prefab
+	public GameObject toggleSlot;				// This is a prefab
+	public GameObject toggleSlotContainerFab;		// This is a prefab
+
+	public PersonManager personManager;
+
+	void Start() {
+		personManager = PersonManager.Instance;		// Get ref to our singleton
+
+	}
 
 	// Called from PersonManager
 	public void LoadSharedItemsScreen() {
@@ -37,6 +46,7 @@ public class SharedItemsScreen : MonoBehaviour {
 
 	public void AddExistingItem() {
 
+		// Add SharedItemSlot
 		GameObject firstItem = Instantiate (sharedItemSlot);
 		firstItem.transform.SetParent (itemSlotContainer.transform);
 
@@ -44,7 +54,30 @@ public class SharedItemsScreen : MonoBehaviour {
 		firstItem.GetComponent<SharedItemSlot> ().index = currItem;
 		firstItem.GetComponent<SharedItemSlot>().inputField.text = existingItems[currItem].price.ToString ();
 
+		// Add associated ToggleSlot, which holds names of every person
+		// Remember that we need to persist boolean values!
+		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
+		PopulateToggles (toggleSlotContainer);
+		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform);
+
 		currItem += 1;		// Num of items
+	}
+
+	// Creates toggles for 'ALL' and each person.
+	// A marked toggle means that the person shared this item.
+	void PopulateToggles(GameObject toggleContainer) {
+		//Debug.Log (toggleContainer == null);
+
+		//Debug.Log (PersonManager.Instance == null);
+
+		List<PersonSlot> personList = PersonManager.Instance.persons;
+
+		foreach(PersonSlot slot in personList) {
+			GameObject toggleFab = Instantiate (toggleSlot);
+			toggleFab.transform.SetParent (toggleContainer.transform);
+
+			toggleFab.GetComponent<NameToggle> ().personName.text = slot.personName;
+		}
 	}
 
 	public void AddNewItem() {
@@ -56,6 +89,13 @@ public class SharedItemsScreen : MonoBehaviour {
 		firstItem.GetComponent<SharedItemSlot> ().index = currItem;
 
 		existingItems.Add (firstItem.GetComponent<SharedItemSlot>());
+
+		// Add associated ToggleSlot, which holds names of every person
+		// Remember that we need to persist boolean values!
+		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
+		PopulateToggles (toggleSlotContainer);
+		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform);
+
 		currItem += 1;		// Num of items
 	}
 

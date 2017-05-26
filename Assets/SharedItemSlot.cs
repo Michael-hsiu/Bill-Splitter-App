@@ -22,19 +22,7 @@ public class SharedItemSlot : MonoBehaviour {
 		personManager = PersonManager.Instance;		// Get ref to our singleton
 	}
 
-	// Creates toggles for 'ALL' and each person.
-	// A marked toggle means that the person shared this item.
-	void PopulateToggles() {
-		List<PersonSlot> personList = personManager.persons;
 
-		foreach(PersonSlot slot in personList) {
-			GameObject toggleFab = Instantiate (togglePrefab);
-			toggleFab.transform.SetParent (toggleContainer.transform);
-
-			toggleFab.GetComponent<NameToggle> ().personName.text = slot.personName;
-
-		}
-	}
 
 
 }

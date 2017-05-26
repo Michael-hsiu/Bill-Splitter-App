@@ -7,4 +7,5 @@ public class NameToggle : MonoBehaviour {
 
 	public Text personName;		// Name of person
 
+
 }
