@@ -17,7 +17,7 @@ public class PersonScreen : MonoBehaviour {
 
 			// Nest the item slot under container
 			GameObject currItemSlot = Instantiate (itemSlot);
-			currItemSlot.personName = "ITEM #" + i;
+			currItemSlot.GetComponent<PersonSlot>().personName = "ITEM #" + i;
 			itemSlots [i].index = i;
 			currItemSlot.transform.SetParent (itemSlotContainer.transform);
 

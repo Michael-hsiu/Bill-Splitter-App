@@ -11,11 +11,13 @@ public class StartScreen : MonoBehaviour {
 
 	public GameObject personPageContainer;	// Container for person pages
 	public GameObject personScreen;		// Page for each person
+	public GameObject personScreenBkgrnd;	// Background for person screens
 
 	public PersonManager personManager;		// PersonManager singleton
 
 	void Start() {
 		personManager = PersonManager.Instance;		// Get ref to our singleton
+		AddPerson ();
 	}
 
 
@@ -29,7 +31,7 @@ public class StartScreen : MonoBehaviour {
 		// Logistics
 		newPersonSlot.GetComponent<PersonSlot> ().index = personManager.numPersons;	// Index of slot in vert hierarchy
 		personManager.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
-		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + (personManager.persons.Count + 1);
+		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + personManager.persons.Count;
 		personManager.numPersons += 1;
 
 		Debug.Log ("NUMPERSONS: " + personManager.numPersons);
@@ -61,6 +63,7 @@ public class StartScreen : MonoBehaviour {
 		}
 
 		// Load the first person page
+		personScreenBkgrnd.SetActive (true);
 		personManager.LoadFirstPersonScreen ();
 
 	}
