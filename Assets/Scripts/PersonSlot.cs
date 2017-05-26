@@ -8,10 +8,13 @@ public class PersonSlot : MonoBehaviour {
 	public int index;		// Index of person
 	public string personName;		// Name of person
 	public List<Item> items = new List<Item>();		// List of all items they bought
+	public List<ItemSlot> itemSlots = new List<ItemSlot> ();
+	public int numItems;		// Current num of items
+	public float totalPrice;	// Total price of all items
 
 	public GameObject deleteButton;
 	public InputField inputField;
-	public GameObject personPage;		// Ref to its page
+	public GameObject personPage;		// Ref to its page1
 
 
 	public class Item {
@@ -19,6 +22,15 @@ public class PersonSlot : MonoBehaviour {
 		public int id;			// Item #_
 		public float price;		// Actual cost
 
+		public Item(int id, float price) {
+			this.id = id;
+			this.price = price;
+		}
+
+	}
+
+	public void UpdateTotalPrice(float price) {
+		totalPrice += price;
 	}
 
 	public void UpdateIDs() {

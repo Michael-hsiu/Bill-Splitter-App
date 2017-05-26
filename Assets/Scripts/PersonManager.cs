@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PersonManager : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class PersonManager : MonoBehaviour {
 	//public List<GameObject> personScreens = new List<GameObject>();
 	public int numPersons = 1;										// Cache total # of ppl; always start w/ 1 person
 	public int currPerson = 0;										// Start index for person screens
+	public int currItem = 1;
 
 	// UI logic for Person Screens
 	public Text personName;
@@ -18,6 +20,7 @@ public class PersonManager : MonoBehaviour {
 	public Button nextButton;
 
 	public GameObject itemSlot;
+	public PersonSlot activePerson;
 
 
 	private static PersonManager instance;
@@ -44,17 +47,86 @@ public class PersonManager : MonoBehaviour {
 
 		PersonSlot target = persons [id];
 		persons.RemoveAt (id);				// Remove PersonSlot at targetted index
+		
 
 		// Update IDs of all other persons coming after this one
-
+		// Make sure correct screens will be displayed
 	}
 
 	public void LoadPersonScreen() {
 
 		// Populate fields
-		PersonSlot activePerson = persons [currPerson];
+		activePerson = persons [currPerson];
+		personName.text = "PERSON #" + (currPerson + 1) + ": " + activePerson.personName;
+
+		// Only if the person hasn't been given any items
+		if (activePerson.items.Count == 0) {
+			AddItem ();
+		}
+
+	}
+
+	public void AddItem() {
+		
+		GameObject firstItem = Instantiate (itemSlot);
+		firstItem.transform.SetParent (itemContainer.transform);
+		firstItem.GetComponent<ItemSlot>().itemText.text = "ITEM #: " + currItem;
+		firstItem.GetComponent<ItemSlot> ().index = currItem;
+
+		activePerson.itemSlots.Add (firstItem.GetComponent<ItemSlot>());
+		currItem += 1;		// Num of items
+	}
+
+	// Called when we save and move on to next Person page!
+	public void RecordItems() {
+
+		foreach (ItemSlot slot in activePerson.itemSlots) {
+			
+			try {
+				// Make sure we need to update ItemSlots, then update Items!
+				string itemPriceStr = slot.inputField.text;
+				// Checks for invalid price
+				if (string.IsNullOrEmpty (itemPriceStr)) {
+					continue;
+				}
+
+				float itemPrice = float.Parse (itemPriceStr);
+
+				// Add new item to player's list of items
+				activePerson.items.Add(new PersonSlot.Item(currItem, itemPrice));
+				activePerson.UpdateTotalPrice (itemPrice);
+
+			} catch (FormatException fe) {
+				Debug.Log ("IMPROPER PRICE FORMAT!");
+			}
 
 
+
+		}
+
+	}
+
+	public void NextPage() {
+		 if (currPerson == numPersons - 1) {
+			// Go to Shared Items pg
+
+		} else {
+			currPerson += 1;
+			RecordItems ();
+			LoadPersonScreen ();
+		}
+	}
+
+	public void BackPage() {
+		if (currPerson == 0) {
+			// Return to main pg
+
+
+		}
+	}
+
+	public void ClearSlots() {
+		
 	}
 
 	/*public void LoadFirstPersonScreen() {
