@@ -134,7 +134,6 @@ public class PersonManager : MonoBehaviour {
 				Debug.Log ("IMPROPER PRICE FORMAT!");
 			}
 		}
-
 	}
 
 	public void NextPage() {
@@ -171,6 +170,7 @@ public class PersonManager : MonoBehaviour {
 	public void LoadSharedItemsScreen() {
 		startScreen.GetComponent<StartScreen>().personScreenBkgrnd.SetActive (false);
 		sharedItemsScreen.SetActive (true);
+		sharedItemsScreen.GetComponent<SharedItemsScreen>().LoadSharedItemsScreen ();
 	}
 
 	public void ClearSlots() {

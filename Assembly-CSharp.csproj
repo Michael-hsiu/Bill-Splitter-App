@@ -46,11 +46,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\NameToggle.cs" />
      <Compile Include="Assets\Scripts\ItemSlot.cs" />
      <Compile Include="Assets\Scripts\PersonManager.cs" />
      <Compile Include="Assets\Scripts\PersonScreen.cs" />
      <Compile Include="Assets\Scripts\PersonSlot.cs" />
      <Compile Include="Assets\SharedItemSlot.cs" />
+     <Compile Include="Assets\SharedItemsScreen.cs" />
      <Compile Include="Assets\StartScreen.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
