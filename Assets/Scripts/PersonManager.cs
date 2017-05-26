@@ -8,6 +8,7 @@ public class PersonManager : MonoBehaviour {
 
 	public List<PersonSlot> persons = new List<PersonSlot>();		// Ref. to slots corresponding to each person
 	public GameObject startScreen;										// Takes care of making slots
+	public GameObject sharedItemsScreen;								// Screen for shared items
 	//public List<GameObject> personScreens = new List<GameObject>();
 	public int numPersons = 1;										// Cache total # of ppl; always start w/ 1 person
 	public int currPerson = 0;										// Start index for person screens
@@ -138,12 +139,13 @@ public class PersonManager : MonoBehaviour {
 
 	public void NextPage() {
 		currItem = 0;
+		RecordItems ();
+
 		 if (currPerson == numPersons - 1) {
 			// Go to Shared Items pg
-
+			LoadSharedItemsScreen ();
 		} else {
 			currPerson += 1;
-			RecordItems ();
 			LoadPersonScreen ();
 		}
 	}
@@ -165,6 +167,12 @@ public class PersonManager : MonoBehaviour {
 		startScreen.GetComponent<StartScreen>().personScreenBkgrnd.SetActive (false);
 		startScreen.SetActive (true);
 	}
+
+	public void LoadSharedItemsScreen() {
+		startScreen.GetComponent<StartScreen>().personScreenBkgrnd.SetActive (false);
+		sharedItemsScreen.SetActive (true);
+	}
+
 	public void ClearSlots() {
 		
 	}
