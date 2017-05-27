@@ -10,7 +10,8 @@ public class PersonSlot : MonoBehaviour {
 	public List<Item> items = new List<Item>();		// List of all items they bought
 	public List<ItemSlot> itemSlots = new List<ItemSlot> ();
 	public int numItems;		// Current num of items
-	public float totalPrice;	// Total price of all items
+	public float individualPrice;	// Total price of all items
+	public float sharedPrice;	// Price from shared items
 
 	public GameObject deleteButton;
 	public InputField inputField;
@@ -31,7 +32,7 @@ public class PersonSlot : MonoBehaviour {
 
 	public void UpdateTotalPrice(float price) {
 		// Currently duplicates all values
-		totalPrice += price;
+		individualPrice += price;
 	}
 
 	public void UpdateIDs() {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class SharedItemsScreen : MonoBehaviour {
 
@@ -131,12 +132,60 @@ public class SharedItemsScreen : MonoBehaviour {
 	}
 
 	// Called when we save and move on to Tax/Gratuity page!
-	public void RecordItems() {}
+	public void RecordItems() {
 
+		// Loop thru all shared item slots
+		foreach (SharedItemSlot slot in existingItems) {
 
+			try {
+				// Make sure we need to update ItemSlots, then update Items! <copied>
+				string itemPriceStr = slot.inputField.text;
+				// Checks for invalid price
+				if (string.IsNullOrEmpty (itemPriceStr)) {
+					continue;
+				}
+
+				float itemPrice = float.Parse (itemPriceStr);
+
+				// Record the price
+				slot.price = itemPrice;
+
+				List<PersonSlot> personsSharing = new List<PersonSlot>();
+
+				// Split the price of the current shared item among those sharing it
+				for (int i = 0; i < slot.toggleList.Count; i++) {
+					
+					// If this person is sharing the price for this item
+					if (slot.toggleList[i].isSharing) {
+						// There is direct corresondence btwn order of toggleList and order of PersonNames
+						personsSharing.Add(PersonManager.Instance.persons[i]);
+					}
+				}
+
+				// Now split item price among all those sharing
+				foreach (PersonSlot personSlot in personsSharing) {
+					
+					personSlot.sharedPrice += (itemPrice / personsSharing.Count);
+				}
+
+			} catch (FormatException fe) {
+				Debug.Log ("IMPROPER PRICE FORMAT!");
+			}
+		}
+	}
+
+	public void ClearSharedPrices() {
+		// Clear all shared prices, since we're going to calculate them again.
+		foreach (PersonSlot ps in personManager.persons) {
+			if (ps.sharedPrice > 0) {
+				ps.sharedPrice = 0.0f;
+			}
+		}
+	}
 
 	public void NextPage() {
 		currItem = 0;
+		ClearSharedPrices ();
 		RecordItems ();
 
 		// Load Tax/Gratuity page
@@ -144,6 +193,7 @@ public class SharedItemsScreen : MonoBehaviour {
 
 	public void BackPage() {
 		currItem = 0;
+		ClearSharedPrices ();
 		RecordItems ();
 
 		PersonManager.Instance.LoadPersonScreen ();

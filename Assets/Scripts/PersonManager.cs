@@ -110,8 +110,8 @@ public class PersonManager : MonoBehaviour {
 	public void RecordItems() {
 
 		// Reset price to prevent duplicate counts
-		if (activePerson.totalPrice > 0) {
-			activePerson.totalPrice = 0.0f;
+		if (activePerson.individualPrice > 0) {
+			activePerson.individualPrice = 0.0f;
 		}
 
 		foreach (ItemSlot slot in activePerson.itemSlots) {
