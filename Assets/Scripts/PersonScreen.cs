@@ -25,4 +25,6 @@ public class PersonScreen : MonoBehaviour {
 			itemSlots [i].itemText.text = "ITEM #" + i;
 		}
 	}
+
+
 }

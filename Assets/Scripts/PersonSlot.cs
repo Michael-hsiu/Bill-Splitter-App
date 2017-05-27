@@ -37,8 +37,22 @@ public class PersonSlot : MonoBehaviour {
 		individualPrice += price;
 	}
 
+
 	public void DeletePerson() {
 		PersonManager.Instance.DeletePerson (id);
+	}
+
+	public void DeleteItem(int id) {
+		ItemSlot target = itemSlots [id];
+		itemSlots.Remove (target);
+		Destroy (target.gameObject);
+		PersonManager.Instance.currItem -= 1;
+
+		// Decrease indices
+		for (int i = id; i < itemSlots.Count; i++) {
+			itemSlots [i].index -= 1;
+			itemSlots [i].itemText.text = "ITEM # " + itemSlots [i].index;
+		}
 	}
 /*
 	public void UpdateIDs() {

@@ -11,6 +11,8 @@ public class ItemSlot : MonoBehaviour {
 	public InputField inputField;	// Where user types in price
 	public Button deleteButton;		// Delete selected item
 
-
+	public void DeleteItemSlot() {
+		PersonManager.Instance.activePerson.DeleteItem (index);
+	}
 
 }

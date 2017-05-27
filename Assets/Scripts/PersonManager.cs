@@ -9,6 +9,7 @@ public class PersonManager : MonoBehaviour {
 	public List<PersonSlot> persons = new List<PersonSlot>();		// Ref. to slots corresponding to each person
 	public GameObject startScreen;										// Takes care of making slots
 	public GameObject sharedItemsScreen;								// Screen for shared items
+	public GameObject personScreen;
 	//public List<GameObject> personScreens = new List<GameObject>();
 	public int numPersons = 1;										// Cache total # of ppl; always start w/ 1 person
 	public int currPerson = 0;										// Start index for person screens
