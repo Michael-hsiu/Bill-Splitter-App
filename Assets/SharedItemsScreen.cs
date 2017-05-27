@@ -38,6 +38,7 @@ public class SharedItemsScreen : MonoBehaviour {
 			AddNewItem ();
 			AddNewItem ();
 			AddNewItem ();
+			AddNewItem ();
 		} else {
 
 			// Add slots for each of the items for the person
