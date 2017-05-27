@@ -12,6 +12,8 @@ public class PersonSlot : MonoBehaviour {
 	public int numItems;		// Current num of items
 	public float individualPrice;	// Total price of all items
 	public float sharedPrice;	// Price from shared items
+	public float taxGratPrice;	// Price from weighted tax and gratuity
+	public float totalPrice;	// FINAL total price
 
 	public GameObject deleteButton;
 	public InputField inputField;

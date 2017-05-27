@@ -54,6 +54,7 @@
      <Compile Include="Assets\SharedItemSlot.cs" />
      <Compile Include="Assets\SharedItemsScreen.cs" />
      <Compile Include="Assets\StartScreen.cs" />
+     <Compile Include="Assets\TaxGratuityScreen.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
