@@ -15,6 +15,7 @@ public class StartScreen : MonoBehaviour {
 	public GameObject splitBillsScreen;
 
 	public PersonManager personManager;		// PersonManager singleton
+	public List<GameObject> personSlots;
 
 	void Start() {
 		personManager = PersonManager.Instance;		// Get ref to our singleton
@@ -24,6 +25,7 @@ public class StartScreen : MonoBehaviour {
 	public void LoadStartScreen() {
 
 		personManager.numPersons = 0;
+		personSlots.Clear ();
 		int currIndex = 0;
 
 		// Clear items from panel container
@@ -45,9 +47,10 @@ public class StartScreen : MonoBehaviour {
 		// UI logic
 		GameObject newPersonSlot = Instantiate (personSlot);			// Make new Person Slot
 		newPersonSlot.transform.SetParent (slotContainer.transform);	// Put Person Slot in Container
+		personSlots.Add (newPersonSlot);
 
 		// Logistics
-		newPersonSlot.GetComponent<PersonSlot> ().index = currIndex;	// Index of slot in vert hierarchy
+		newPersonSlot.GetComponent<PersonSlot> ().id = currIndex;	// Index of slot in vert hierarchy
 		//personManager.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
 		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + (currIndex + 1);	// CS indexing vs. normal person indexing
 		newPersonSlot.GetComponent<PersonSlot>().inputField.text = personManager.persons[currIndex].personName;
@@ -56,15 +59,29 @@ public class StartScreen : MonoBehaviour {
 		Debug.Log ("NUMPERSONS (should stay constant): " + personManager.numPersons);
 	}
 
+	public void LowerIndices(int startID) {
+		GameObject target = personSlots [startID];
+		personSlots.Remove (target);
+		Destroy (target);
+		personManager.numPersons -= 1;
+
+		// Target has been removed, start at startID since everything was shifted
+		for (int i = startID; i < personSlots.Count; i++) {
+			personSlots [i].GetComponent<PersonSlot> ().id -= 1;
+			personSlots [i].GetComponentInChildren<Text>().text = "PERSON #" + (personSlots [i].GetComponent<PersonSlot> ().id + 1);	// CS indexing vs. normal person indexing
+		}
+	}
+
 	// Called when addPersonButton is pressed
 	public void AddPerson() {
 
 		// UI logic
 		GameObject newPersonSlot = Instantiate (personSlot);			// Make new Person Slot
 		newPersonSlot.transform.SetParent (slotContainer.transform);	// Put Person Slot in Container
+		personSlots.Add (newPersonSlot);
 
 		// Logistics
-		newPersonSlot.GetComponent<PersonSlot> ().index = personManager.numPersons;	// Index of slot in vert hierarchy
+		newPersonSlot.GetComponent<PersonSlot> ().id = personManager.numPersons;	// Index of slot in vert hierarchy
 		personManager.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
 		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + personManager.persons.Count;
 		personManager.numPersons += 1;

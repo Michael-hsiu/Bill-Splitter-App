@@ -48,6 +48,8 @@ public class PersonManager : MonoBehaviour {
 
 		PersonSlot target = persons [id];
 		persons.RemoveAt (id);				// Remove PersonSlot at targetted index
+
+		startScreen.GetComponent<StartScreen> ().LowerIndices (id);		// Adjust indices display
 		
 
 		// Update IDs of all other persons coming after this one

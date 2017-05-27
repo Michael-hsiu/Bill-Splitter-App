@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PersonSlot : MonoBehaviour {
 
-	public int index;		// Index of person
+	public int id;		// Index of person
 	public string personName;		// Name of person
 	public List<Item> items = new List<Item>();		// List of all items they bought
 	public List<ItemSlot> itemSlots = new List<ItemSlot> ();
@@ -15,7 +15,7 @@ public class PersonSlot : MonoBehaviour {
 	public float taxGratPrice;	// Price from weighted tax and gratuity
 	public float totalPrice;	// FINAL total price
 
-	public GameObject deleteButton;
+	public Button deleteButton;
 	public InputField inputField;
 	public GameObject personPage;		// Ref to its page1
 
@@ -37,12 +37,16 @@ public class PersonSlot : MonoBehaviour {
 		individualPrice += price;
 	}
 
+	public void DeletePerson() {
+		PersonManager.Instance.DeletePerson (id);
+	}
+/*
 	public void UpdateIDs() {
 
 		// Assigns all items in list to their position in list, in event of a deletion of an item
 		for (int i = 0; i < items.Count; i++) {
 			items [i].id = i;
 		}
-	}
+	}*/
 
 }
