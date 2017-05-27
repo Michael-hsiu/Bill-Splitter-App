@@ -13,6 +13,7 @@ public class TaxGratuityScreen : MonoBehaviour {
 
 	public PersonManager personManager;
 	public GameObject sharedItemsScreen;
+	public GameObject splitBillsScreen;		// Final screen w/ individual prices
 
 	void Start() {
 		personManager = PersonManager.Instance;
@@ -67,13 +68,17 @@ public class TaxGratuityScreen : MonoBehaviour {
 
 		CalculateTaxGratuityPrice ();
 		// Load Split Bill page!
+		splitBillsScreen.SetActive (true);
+		splitBillsScreen.GetComponent<SplitBillScreen> ().LoadSplitBillScreen ();
 
 	}
 
 	public void BackPage() {
 	
 		CalculateTaxGratuityPrice ();
-		// Load the last Person Screen for 'persons'
+		// Load the shared items screen
+		sharedItemsScreen.SetActive (true);
+		sharedItemsScreen.GetComponent<SharedItemsScreen> ().LoadSharedItemsScreen ();
 	}
 
 }

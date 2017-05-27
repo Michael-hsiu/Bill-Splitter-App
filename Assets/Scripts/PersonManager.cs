@@ -62,7 +62,7 @@ public class PersonManager : MonoBehaviour {
 
 		// Clear items from last person
 		foreach (Transform child in itemContainer.transform) {
-			Debug.Log ("DESTORYING ITEM");
+			Debug.Log ("DESTROYING ITEM!");
 			Destroy (child.gameObject);
 		}
 

@@ -189,6 +189,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		ClearSharedPrices ();
 		RecordItems ();
 
+		PersonManager.Instance.startScreen.SetActive (false);
 		// Load Tax/Gratuity page
 		taxGratScreen.SetActive (true);
 		taxGratScreen.GetComponent<TaxGratuityScreen>().LoadTaxGratuityScreen();
@@ -199,6 +200,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		ClearSharedPrices ();
 		RecordItems ();
 
+		PersonManager.Instance.startScreen.SetActive (false);
 		PersonManager.Instance.LoadPersonScreen ();
 	}
 }

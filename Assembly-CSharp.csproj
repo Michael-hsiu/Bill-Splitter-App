@@ -53,6 +53,8 @@
      <Compile Include="Assets\Scripts\PersonSlot.cs" />
      <Compile Include="Assets\SharedItemSlot.cs" />
      <Compile Include="Assets\SharedItemsScreen.cs" />
+     <Compile Include="Assets\SplitBillPanel.cs" />
+     <Compile Include="Assets\SplitBillScreen.cs" />
      <Compile Include="Assets\StartScreen.cs" />
      <Compile Include="Assets\TaxGratuityScreen.cs" />
  <Reference Include="UnityEngine.Analytics">
