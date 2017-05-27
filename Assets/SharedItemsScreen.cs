@@ -17,6 +17,7 @@ public class SharedItemsScreen : MonoBehaviour {
 	public GameObject slotHolder;	// In hierarchy
 
 	public PersonManager personManager;
+	public GameObject taxGratScreen;
 
 	void Start() {
 		personManager = PersonManager.Instance;		// Get ref to our singleton
@@ -189,6 +190,8 @@ public class SharedItemsScreen : MonoBehaviour {
 		RecordItems ();
 
 		// Load Tax/Gratuity page
+		taxGratScreen.SetActive (true);
+		taxGratScreen.GetComponent<TaxGratuityScreen>().LoadTaxGratuityScreen();
 	}
 
 	public void BackPage() {

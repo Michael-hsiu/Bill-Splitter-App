@@ -12,9 +12,14 @@ public class TaxGratuityScreen : MonoBehaviour {
 	public float gratuityAmnt;
 
 	public PersonManager personManager;
+	public GameObject sharedItemsScreen;
 
 	void Start() {
 		personManager = PersonManager.Instance;
+	}
+
+	public void LoadTaxGratuityScreen() {
+		sharedItemsScreen.SetActive (false);	
 	}
 
 	public void CalculateTaxGratuityPrice() {
@@ -39,6 +44,7 @@ public class TaxGratuityScreen : MonoBehaviour {
 		}
 
 		// Get the subtotal (for weighted tax / gratuity)
+		// Inefficient loop - would be better to save a running constant somewhere in PersonManager
 		float totalSubtotal = 0.0f;
 		foreach (PersonSlot ps in personManager.persons) {
 			totalSubtotal += (ps.individualPrice + ps.sharedPrice);
@@ -51,7 +57,7 @@ public class TaxGratuityScreen : MonoBehaviour {
 			float currSubtotal = ps.individualPrice + ps.sharedPrice;
 
 			// TAX_RATE dependent on person's subtotal, then add a weighted gratuity amnt
-			ps.taxGratPrice = currSubtotal * taxRate + (currSubtotal / totalSubtotal) * gratuityAmnt;
+			ps.taxGratPrice = currSubtotal * (gratuityAmnt / 100.0f) + (currSubtotal / totalSubtotal) * taxRate;
 			ps.totalPrice = currSubtotal + ps.taxGratPrice;
 		}
 	}
@@ -59,12 +65,14 @@ public class TaxGratuityScreen : MonoBehaviour {
 
 	public void NextPage() {
 
+		CalculateTaxGratuityPrice ();
 		// Load Split Bill page!
 
 	}
 
 	public void BackPage() {
 	
+		CalculateTaxGratuityPrice ();
 		// Load the last Person Screen for 'persons'
 	}
 
