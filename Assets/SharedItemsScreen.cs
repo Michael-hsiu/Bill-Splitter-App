@@ -24,7 +24,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		//personManager = PersonManager.Instance;		// Get ref to our singleton
 
 	}
-
+		
 	// Called from PersonManager
 	public void LoadSharedItemsScreen() {
 
