@@ -18,9 +18,10 @@ public class SharedItemsScreen : MonoBehaviour {
 
 	public PersonManager personManager;
 	public GameObject taxGratScreen;
+	public GameObject personScreen;
 
 	void Start() {
-		personManager = PersonManager.Instance;		// Get ref to our singleton
+		//personManager = PersonManager.Instance;		// Get ref to our singleton
 
 	}
 
@@ -36,18 +37,21 @@ public class SharedItemsScreen : MonoBehaviour {
 		// Only if the person hasn't been given any items
 		if (existingItems.Count == 0) {
 			AddNewItem ();
-			AddNewItem ();
-			AddNewItem ();
-			AddNewItem ();
+			//AddNewItem ();
+			//AddNewItem ();
+			//AddNewItem ();
 		} else {
 
 			// Add slots for each of the items for the person
 			// Currently there are multiple repeat calculations, but optimize later if time
+			currItem = 0;
 			foreach (SharedItemSlot slot in existingItems) {
 				AddExistingItem ();
 			}
 
 		}
+
+		personScreen.SetActive (false);
 
 	}
 
@@ -57,6 +61,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		GameObject firstItem = Instantiate (sharedItemSlot);
 		firstItem.transform.SetParent (itemSlotContainer.transform);
 
+		Debug.Log ("CURRITEM: " + currItem);
 		firstItem.GetComponent<SharedItemSlot>().itemText.text = "ITEM #: " + currItem;
 		firstItem.GetComponent<SharedItemSlot> ().index = currItem;
 		firstItem.GetComponent<SharedItemSlot>().inputField.text = existingItems[currItem].price.ToString ();
@@ -113,7 +118,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
 		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform);
 
-		float numToggles = PopulateToggles (currItem - 1, toggleSlotContainer);		// Populates toggles and gives us number of toggles populated
+		float numToggles = PopulateToggles (currItem, toggleSlotContainer);		// Populates toggles and gives us number of toggles populated
 		//Debug.Log ("NUMTOGGLES: " + numToggles);
 
 		float numSlotsWide = Screen.width / toggleSlot.GetComponent<RectTransform> ().rect.width;
@@ -144,6 +149,7 @@ public class SharedItemsScreen : MonoBehaviour {
 				string itemPriceStr = slot.inputField.text;
 				// Checks for invalid price
 				if (string.IsNullOrEmpty (itemPriceStr)) {
+					slot.price = 0.0f;
 					continue;
 				}
 
@@ -178,7 +184,7 @@ public class SharedItemsScreen : MonoBehaviour {
 
 	public void ClearSharedPrices() {
 		// Clear all shared prices, since we're going to calculate them again.
-		foreach (PersonSlot ps in personManager.persons) {
+		foreach (PersonSlot ps in PersonManager.Instance.persons) {
 			if (ps.sharedPrice > 0) {
 				ps.sharedPrice = 0.0f;
 			}
@@ -202,6 +208,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		RecordItems ();
 
 		PersonManager.Instance.startScreen.SetActive (false);
+		personScreen.SetActive (true);
 		PersonManager.Instance.LoadPersonScreen ();
 	}
 }

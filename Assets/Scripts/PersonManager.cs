@@ -12,7 +12,7 @@ public class PersonManager : MonoBehaviour {
 	//public List<GameObject> personScreens = new List<GameObject>();
 	public int numPersons = 1;										// Cache total # of ppl; always start w/ 1 person
 	public int currPerson = 0;										// Start index for person screens
-	public int currItem = 1;
+	public int currItem = 0;
 
 	// UI logic for Person Screens
 	public Text personName;
@@ -74,11 +74,26 @@ public class PersonManager : MonoBehaviour {
 
 			// Add slots for each of the items for the person
 			// Currently there are multiple repeat calculations, but optimize later if time
-			foreach (ItemSlot slot in activePerson.itemSlots) {
-				AddExistingItem ();
+			//currItem = 0;
+			//Debug.Log (activePerson == null);
+			//Debug.Log (activePerson.itemSlots == null);
+
+			try {
+				foreach (ItemSlot slot in activePerson.itemSlots) {
+					//Debug.Log("HI");
+					AddExistingItem ();
+				}
+					
+			} catch (System.Exception e) {
+				//Debug.Break ();
+				//Debug.Log ("CURRITEM: " + currItem);
+				Debug.Log ("CAUGHT: " + e);
 			}
 
 		}
+
+		sharedItemsScreen.SetActive (false);
+		startScreen.SetActive (false);
 
 	}
 
@@ -91,7 +106,9 @@ public class PersonManager : MonoBehaviour {
 		firstItem.GetComponent<ItemSlot> ().index = currItem;
 		firstItem.GetComponent<ItemSlot>().inputField.text = activePerson.items[currItem].price.ToString ();
 
-		currItem += 1;		// Num of items
+		Debug.Log ("CURRITEM: " + currItem);
+		Debug.Log (activePerson.items[currItem].price.ToString ());
+		this.currItem += 1;		// Num of items
 	}
 
 	public void AddNewItem() {
@@ -114,11 +131,14 @@ public class PersonManager : MonoBehaviour {
 			activePerson.individualPrice = 0.0f;
 		}
 
+		// Reset list of Items
+		activePerson.items.Clear ();
 		foreach (ItemSlot slot in activePerson.itemSlots) {
 			
 			try {
 				// Make sure we need to update ItemSlots, then update Items!
 				string itemPriceStr = slot.inputField.text;
+				Debug.Log (itemPriceStr);
 				// Checks for invalid price
 				if (string.IsNullOrEmpty (itemPriceStr)) {
 					continue;
@@ -168,9 +188,9 @@ public class PersonManager : MonoBehaviour {
 	}
 
 	public void LoadSharedItemsScreen() {
-		startScreen.GetComponent<StartScreen>().personScreenBkgrnd.SetActive (false);
 		sharedItemsScreen.SetActive (true);
 		sharedItemsScreen.GetComponent<SharedItemsScreen>().LoadSharedItemsScreen ();
+		startScreen.GetComponent<StartScreen>().personScreenBkgrnd.SetActive (false);
 	}
 
 	public void ClearSlots() {
