@@ -17,11 +17,15 @@ public class SharedItemSlot : MonoBehaviour {
 	public List<NameToggle> toggleList;		// All the toggles
 
 	public PersonManager personManager;		// PersonManager singleton
+	public SharedItemsScreen sharedItemsScreen;
 
 	void Start() {
 		personManager = PersonManager.Instance;		// Get ref to our singleton
 	}
 
+	public void DeleteItem() {
+		sharedItemsScreen.DeleteItem (index);
+	}
 
 
 

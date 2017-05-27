@@ -80,6 +80,9 @@ public class SharedItemsScreen : MonoBehaviour {
 		// Add associated ToggleSlot, which holds names of every person
 		// Remember that we need to persist boolean values!
 		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
+		firstItem.GetComponent<SharedItemSlot> ().toggleContainer = toggleSlotContainer;	// The toggles we're associated with
+		firstItem.GetComponent<SharedItemSlot> ().sharedItemsScreen = this;
+
 		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform);
 
 		float numToggles = PopulateToggles (currItem, toggleSlotContainer);		// Populates toggles and gives us number of toggles populated
@@ -107,6 +110,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		// Remember that we need to persist boolean values!
 		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
 		firstItem.GetComponent<SharedItemSlot> ().toggleContainer = toggleSlotContainer;	// The toggles we're associated with
+		firstItem.GetComponent<SharedItemSlot> ().sharedItemsScreen = this;
 		//PopulateToggles (currItem, toggleSlotContainer);
 
 
@@ -236,4 +240,20 @@ public class SharedItemsScreen : MonoBehaviour {
 		personScreen.SetActive (true);
 		PersonManager.Instance.LoadPersonScreen ();
 	}
+
+	public void DeleteItem(int id) {
+		SharedItemSlot target = existingItems [id];
+		existingItems.Remove (target);
+		Destroy (target.toggleContainer);		// Destroy its toggles
+		Destroy (target.gameObject);			// Destroy itself
+		PersonManager.Instance.currItem -= 1;
+		currItem -= 1;
+
+		// Decrease indices
+		for (int i = id+1; i < existingItems.Count; i++) {
+			existingItems [i].index -= 1;
+			existingItems [i].itemText.text = "ITEM # " + existingItems [i].index;
+		}
+	}
+
 }
