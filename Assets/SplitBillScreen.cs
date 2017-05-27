@@ -9,6 +9,8 @@ public class SplitBillScreen : MonoBehaviour {
 	public GameObject splitBillPanel;				// One for each person!
 	public GameObject splitBillPanelContainer;		// Parent of all panels
 
+	public float grandTotal;						// Total cost of the meal
+
 	public PersonManager personManager;
 
 	void Start() {
@@ -19,6 +21,7 @@ public class SplitBillScreen : MonoBehaviour {
 
 		// Disable last screen
 		taxGratScreen.SetActive (false);
+		grandTotal = 0.0f;		// Reset GRAND_TOTAL
 
 		// Clear items from panel container
 		foreach (Transform child in splitBillPanelContainer.transform) {
@@ -33,8 +36,17 @@ public class SplitBillScreen : MonoBehaviour {
 			billPanel.transform.SetParent (splitBillPanelContainer.transform);
 
 			billPanel.GetComponent<SplitBillPanel>().nameText.text = ps.personName + ": ";
-			billPanel.GetComponent<SplitBillPanel> ().priceText.text = "$" + System.Math.Round(ps.totalPrice, 2).ToString ();
+			float roundedPrice = (float) System.Math.Round (ps.totalPrice, 2);
+			grandTotal += roundedPrice;
+			billPanel.GetComponent<SplitBillPanel> ().priceText.text = "$" + roundedPrice.ToString ();
 		}
+
+		// Instantiate TOTAL panel
+		GameObject grantTotalPanel = Instantiate (splitBillPanel);
+		grantTotalPanel.transform.SetParent (splitBillPanelContainer.transform);
+
+		grantTotalPanel.GetComponent<SplitBillPanel>().nameText.text = "GRAND TOTAL: ";
+		grantTotalPanel.GetComponent<SplitBillPanel> ().priceText.text = "$" + grandTotal.ToString ();
 
 
 	}
