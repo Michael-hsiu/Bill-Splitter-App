@@ -158,6 +158,7 @@ public class PersonManager : MonoBehaviour {
 
 	public void NextPage() {
 		currItem = 0;
+		numPersons = persons.Count;
 		RecordItems ();
 
 		 if (currPerson == numPersons - 1) {
@@ -171,6 +172,7 @@ public class PersonManager : MonoBehaviour {
 
 	public void BackPage() {
 		currItem = 0;
+		numPersons = persons.Count;
 		if (currPerson == 0) {
 			// Return to main pg
 			RecordItems ();

@@ -8,6 +8,7 @@ public class SplitBillScreen : MonoBehaviour {
 	public GameObject taxGratScreen;
 	public GameObject splitBillPanel;				// One for each person!
 	public GameObject splitBillPanelContainer;		// Parent of all panels
+	public GameObject startScreen;
 
 	public float grandTotal;						// Total cost of the meal
 
@@ -49,6 +50,22 @@ public class SplitBillScreen : MonoBehaviour {
 		grantTotalPanel.GetComponent<SplitBillPanel> ().priceText.text = "$" + grandTotal.ToString ();
 
 
+	}
+
+	public void BackPage() {
+		
+		// Load Tax/Gratuity page
+		taxGratScreen.SetActive (true);
+		taxGratScreen.GetComponent<TaxGratuityScreen>().LoadTaxGratuityScreen();
+		startScreen.SetActive (false);
+	}
+
+	public void MainMenu() {
+
+		PersonManager.Instance.currPerson = 0;		// Since we effectively looped around the app
+
+		startScreen.SetActive (true);	
+		startScreen.GetComponent<StartScreen>().LoadStartScreen ();
 	}
 
 }

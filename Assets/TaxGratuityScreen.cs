@@ -21,6 +21,7 @@ public class TaxGratuityScreen : MonoBehaviour {
 
 	public void LoadTaxGratuityScreen() {
 		sharedItemsScreen.SetActive (false);	
+		splitBillsScreen.SetActive (false);
 	}
 
 	public void CalculateTaxGratuityPrice() {

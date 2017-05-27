@@ -12,6 +12,7 @@ public class StartScreen : MonoBehaviour {
 	public GameObject personPageContainer;	// Container for person pages
 	//public GameObject personScreen;		// Page for each person
 	public GameObject personScreenBkgrnd;	// Background for person screens
+	public GameObject splitBillsScreen;
 
 	public PersonManager personManager;		// PersonManager singleton
 
@@ -20,6 +21,40 @@ public class StartScreen : MonoBehaviour {
 		AddPerson ();
 	}
 
+	public void LoadStartScreen() {
+
+		personManager.numPersons = 0;
+		int currIndex = 0;
+
+		// Clear items from panel container
+		foreach (Transform child in slotContainer.transform) {
+			Debug.Log ("DESTROYING OLD PERSON SLOT!");
+			Destroy (child.gameObject);
+		}
+
+		// Re-populate all person slots
+		foreach (PersonSlot ps in personManager.persons) {
+			AddExistingPerson (currIndex);
+			currIndex += 1;
+		}
+
+		splitBillsScreen.SetActive (false);
+	}
+
+	public void AddExistingPerson(int currIndex) {
+		// UI logic
+		GameObject newPersonSlot = Instantiate (personSlot);			// Make new Person Slot
+		newPersonSlot.transform.SetParent (slotContainer.transform);	// Put Person Slot in Container
+
+		// Logistics
+		newPersonSlot.GetComponent<PersonSlot> ().index = currIndex;	// Index of slot in vert hierarchy
+		//personManager.persons.Add (newPersonSlot.GetComponent<PersonSlot>());			// Add reference to the slot
+		newPersonSlot.GetComponentInChildren<Text>().text = "PERSON #" + (currIndex + 1);	// CS indexing vs. normal person indexing
+		newPersonSlot.GetComponent<PersonSlot>().inputField.text = personManager.persons[currIndex].personName;
+		//personManager.numPersons += 1;
+
+		Debug.Log ("NUMPERSONS (should stay constant): " + personManager.numPersons);
+	}
 
 	// Called when addPersonButton is pressed
 	public void AddPerson() {
@@ -41,25 +76,13 @@ public class StartScreen : MonoBehaviour {
 	// Called when Save&Next is pressed
 	public void SaveAndNext() {
 
-		// Instantiate pages for each of the saved PersonSlots
-		int numPersons = personManager.numPersons;
+		// Save names of all bill splitters
+		int numPersons = personManager.persons.Count;
 		List<PersonSlot> personList = personManager.persons;
 		for (int i = 0; i < numPersons; i++) {
 
 			// Using current list of persons, set names
 			personList [i].personName = personList [i].inputField.text;
-
-			// Nest the person page under container
-			//GameObject currPage = Instantiate (personScreen);
-			//currPage.name = personList [i].name;				// Since 'numPersons' starts out as 1, but we start at 0
-			//currPage.transform.SetParent (personPageContainer.transform);
-
-			// Next, populate the fields
-			//currPage.GetComponent<PersonScreen> ().PopulateSlots ();	// This fills up all item slots for that person
-		
-			// Give curr pg ref to PersonManager
-			//personManager.personScreens.Add (currPage);
-			//currPage.SetActive (false);
 		}
 
 		// Load the first person page, which will populate the template Person Screen with saved fields

@@ -52,6 +52,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		}
 
 		personScreen.SetActive (false);
+		taxGratScreen.SetActive (false);
 
 	}
 
@@ -62,7 +63,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		firstItem.transform.SetParent (itemSlotContainer.transform);
 
 		Debug.Log ("CURRITEM: " + currItem);
-		firstItem.GetComponent<SharedItemSlot>().itemText.text = "ITEM #: " + currItem;
+		firstItem.GetComponent<SharedItemSlot>().itemText.text = "ITEM #: " + (currItem+1);
 		firstItem.GetComponent<SharedItemSlot> ().index = currItem;
 		firstItem.GetComponent<SharedItemSlot>().inputField.text = existingItems[currItem].price.ToString ();
 
@@ -161,7 +162,7 @@ public class SharedItemsScreen : MonoBehaviour {
 				List<PersonSlot> personsSharing = new List<PersonSlot>();
 
 				// Split the price of the current shared item among those sharing it
-				for (int i = 0; i < slot.toggleList.Count; i++) {
+				for (int i = 0; i < PersonManager.Instance.persons.Count; i++) {
 					
 					// If this person is sharing the price for this item
 					if (slot.toggleList[i].isSharing) {
