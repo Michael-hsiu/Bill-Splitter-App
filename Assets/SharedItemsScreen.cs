@@ -13,6 +13,8 @@ public class SharedItemsScreen : MonoBehaviour {
 	public GameObject toggleSlot;				// This is a prefab
 	public GameObject toggleSlotContainerFab;		// This is a prefab
 
+	public GameObject slotHolder;	// In hierarchy
+
 	public PersonManager personManager;
 
 	void Start() {
@@ -31,6 +33,8 @@ public class SharedItemsScreen : MonoBehaviour {
 
 		// Only if the person hasn't been given any items
 		if (existingItems.Count == 0) {
+			AddNewItem ();
+			AddNewItem ();
 			AddNewItem ();
 		} else {
 
@@ -58,26 +62,31 @@ public class SharedItemsScreen : MonoBehaviour {
 		// Remember that we need to persist boolean values!
 		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
 		PopulateToggles (toggleSlotContainer);
-		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform);
+		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform, false);
 
 		currItem += 1;		// Num of items
 	}
 
 	// Creates toggles for 'ALL' and each person.
 	// A marked toggle means that the person shared this item.
-	void PopulateToggles(GameObject toggleContainer) {
+	public int PopulateToggles(GameObject toggleContainer) {
 		//Debug.Log (toggleContainer == null);
 
 		//Debug.Log (PersonManager.Instance == null);
 
 		List<PersonSlot> personList = PersonManager.Instance.persons;
 
+		int numToggles = 0;
 		foreach(PersonSlot slot in personList) {
 			GameObject toggleFab = Instantiate (toggleSlot);
 			toggleFab.transform.SetParent (toggleContainer.transform);
 
 			toggleFab.GetComponent<NameToggle> ().personName.text = slot.personName;
+
+			numToggles += 1;
 		}
+
+		return numToggles;
 	}
 
 	public void AddNewItem() {
@@ -85,16 +94,32 @@ public class SharedItemsScreen : MonoBehaviour {
 		GameObject firstItem = Instantiate (sharedItemSlot);
 		firstItem.transform.SetParent (itemSlotContainer.transform);
 
-		firstItem.GetComponent<SharedItemSlot>().itemText.text = "ITEM #: " + currItem;
+		firstItem.GetComponent<SharedItemSlot> ().itemText.text = "ITEM #: " + currItem;
 		firstItem.GetComponent<SharedItemSlot> ().index = currItem;
 
-		existingItems.Add (firstItem.GetComponent<SharedItemSlot>());
+		existingItems.Add (firstItem.GetComponent<SharedItemSlot> ());
 
 		// Add associated ToggleSlot, which holds names of every person
 		// Remember that we need to persist boolean values!
 		GameObject toggleSlotContainer = Instantiate (toggleSlotContainerFab);
-		PopulateToggles (toggleSlotContainer);
 		toggleSlotContainer.transform.SetParent (itemSlotContainer.transform);
+
+		float numToggles = PopulateToggles (toggleSlotContainer);		// Populates toggles and gives us number of toggles populated
+		Debug.Log ("NUMTOGGLES: " + numToggles);
+
+		float numSlotsWide = Screen.width / toggleSlot.GetComponent<RectTransform> ().rect.width;
+		Debug.Log ("NUMSLOTSWIDE: " + numSlotsWide);
+
+		int numLevels = Mathf.CeilToInt (numToggles / numSlotsWide);
+		Debug.Log ("NUMLVLS: " + numLevels);
+
+		Debug.Log ("SLOT_HEIGHT" + toggleSlot.GetComponent<RectTransform> ().rect.height);
+
+		// This uses slot fab height to force a distance btwn 2 SharedItemSlots; also adds a constant fudge factor
+		toggleSlotContainer.GetComponent<RectTransform> ().sizeDelta = new Vector2	 (Screen.width, (numLevels * toggleSlot.GetComponent<RectTransform>().rect.height) + 20.0f);
+
+		//GameObject holder = Instantiate (slotHolder);
+		//slotHolder.transform.SetParent (itemSlotContainer.transform);
 
 		currItem += 1;		// Num of items
 	}
