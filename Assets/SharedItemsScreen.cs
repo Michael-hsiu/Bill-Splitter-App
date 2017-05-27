@@ -28,6 +28,14 @@ public class SharedItemsScreen : MonoBehaviour {
 	// Called from PersonManager
 	public void LoadSharedItemsScreen() {
 
+		// Create list of all shared prices
+		List<float> prices = new List<float> ();
+		foreach (Transform child in itemSlotContainer.transform) {
+			if (child.GetComponent<SharedItemSlot>() != null) {
+				prices.Add(child.GetComponent<SharedItemSlot>().price);		// Add all prices, since we're destroying GO
+			}
+		}
+
 		// Clear items from last time
 		foreach (Transform child in itemSlotContainer.transform) {
 			Debug.Log ("DESTROYING ITEM");
@@ -45,9 +53,11 @@ public class SharedItemsScreen : MonoBehaviour {
 			// Add slots for each of the items for the person
 			// Currently there are multiple repeat calculations, but optimize later if time
 			currItem = 0;
-			foreach (SharedItemSlot slot in existingItems) {
-				AddExistingItem ();
+			//List<SharedItemSlot> newList = new List<SharedItemSlot> ();
+			foreach (int price in prices) {
+				AddExistingItem (price);
 			}
+			//existingItems = newList;
 
 		}
 
@@ -82,7 +92,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		currItem += 1;		// Num of items
 	}
 
-	public void AddExistingItem() {
+	public void AddExistingItem(float price) {
 
 		// Add SharedItemSlot
 		GameObject firstItem = Instantiate (sharedItemSlot);
@@ -91,7 +101,7 @@ public class SharedItemsScreen : MonoBehaviour {
 		Debug.Log ("CURRITEM: " + currItem);
 		firstItem.GetComponent<SharedItemSlot>().itemText.text = "ITEM #: " + (currItem+1);
 		firstItem.GetComponent<SharedItemSlot> ().index = currItem;
-		firstItem.GetComponent<SharedItemSlot>().inputField.text = existingItems[currItem].price.ToString ();
+		firstItem.GetComponent<SharedItemSlot>().inputField.text = price.ToString ();
 
 		// Add associated ToggleSlot, which holds names of every person
 		// Remember that we need to persist boolean values!
