@@ -14,7 +14,7 @@ public class SharedItemSlot : MonoBehaviour {
 
 	public GameObject toggleContainer;	// Holds all the toggles
 	public GameObject togglePrefab;		// Toggle prefab on a panel
-	public List<GameObject> toggleList;		// All the toggles
+	public List<NameToggle> toggleList;		// All the toggles
 
 	public PersonManager personManager;		// PersonManager singleton
 
